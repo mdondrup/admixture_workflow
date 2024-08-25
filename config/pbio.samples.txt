@@ -1,0 +1,403 @@
+Strain	Location	Source	"Ploidy (1,2,3,4,NA,low,no snp)"	Aneuploidy (chromosome #)	Population	"Sequence (ASM = assembly, SRA = Short read)"
+IL01	"IL, USA"	Soil	NA		Med/oak	ASM
+YJM1399	NA	Wild cherry tree gum	NA		Med/oak	ASM
+YO730	NA	Wild cherry tree gum	no snp		Med/oak	SRA
+PYR4e	Agios Ioannis  near Pyrgadikia  Northern Greece	Quercus pubescens	no snp		Med/oak	SRA
+ZP1008	Eja  Melres  Douro  Portugal	Quercus faginea	no snp		Med/oak	SRA
+ZP567	Castelo de Vide  Portugal 	Quercus pyrenaica	low		Med/oak	SRA
+ZP850	Alconorales Natural Park  Andaluzia  Spain	Quercus ilex	no snp		Med/oak	SRA
+ZP575	Castelo de Vide  Portugal 	Quercus pyrenaica	no snp		Med/oak	SRA
+ZP636	Castelo de Vide  Portugal 	Castanea sativa	no snp		Med/oak	SRA
+ZP562	Castelo de Vide  Portugal 	Quercus ilex	no snp		Med/oak	SRA
+ZP590	Castelo de Vide  Portugal 	Quercus pyrenaica	no snp		Med/oak	SRA
+ZP633	Castelo de Vide  Portugal 	Quercus pyrenaica	no snp		Med/oak	SRA
+ZP541	Adagoi  Portugal	Fagus sylvatica	no snp		Med/oak	SRA
+ZP563	Castelo de Vide  Portugal	Castanea sativa	no snp		Med/oak	SRA
+ZP860	Alconorales Natural Park  Andaluzia  Spain	Quercus ilex	no snp		Med/oak	SRA
+ZP851	Alconorales Natural Park  Andaluzia  Spain	Quercus ilex	no snp		Med/oak	SRA
+FGXd	Hotel Anixi  Anixi  Southern Greece	Ficus carica	no snp		Med/oak	SRA
+ZP561	Castelo de Vide  Portugal 	Quercus pyrenaica	no snp		Med/oak	SRA
+ZP570	Paul Boquilobo  Portugal	Fraxinus sp.	no snp		Med/oak	SRA
+ZP736	Caratão  Abrantes  Portugal	Rotten figs	no snp		Med/oak	SRA
+ZP565	Castelo de Vide  Portugal 	Castanea sativa	no snp		Med/oak	SRA
+ZP564	Castelo de Vide  Portugal 	Quercus pyrenaica	no snp		Med/oak	SRA
+ZP560	Castelo de Vide  Portugal 	Quercus pyrenaica	no snp		Med/oak	SRA
+ZP566	Castelo de Vide  Portugal 	Quercus faginea	no snp		Med/oak	SRA
+ZP568	Castelo de Vide  Portugal 	Quecus pyrenaica	no snp		Med/oak	SRA
+ZP742	Caratão  Abrantes  Portugal	Rotten figs	no snp		Med/oak	SRA
+PYR4b	Halkidiki  Greece	Quercus pubescens	no snp		Med/oak	SRA
+MB7c	Montbarri  Southern France	Quercus pubescens	no snp		Med/oak	SRA
+HUN9	Hungary 	Oak (isolate provided by Eladio Barrio)	no snp		Med/oak	SRA
+310	Parco del Monte Subasio  Italy	Quercus cerris	no snp		Med/oak	SRA
+EXF7145	"Novi Sad, Serbia"	Quercus robur	no snp		Med/oak	SRA
+EXF7197	On the road from Durmitor to Niksic (Jasenovo polje)  Montenegro	Quercus robur	no snp		Med/oak	SRA
+RNKp	"Nkanka, West Rwanda - Rwanda"	Green coffee beans	no snp		Med/oak	SRA
+YO466	Tanzania	Togwa	3		Med/oak	SRA
+EXF6780	Slovenia	Quercus petraea	2	10	Europe/wine	SRA
+YJM1463	Ethiopia	White Tecc	NA		Europe/wine	ASM
+YO715	Italy	Stracchino cheese	3		Europe/wine	SRA
+A.WB-06	NA	Commercial Wheat	low		Europe/wine	SRA
+YJM1478	NA	Kefir	NA		Europe/wine	ASM
+YMD1834	Belgium	Commercial Ale	2	14	Europe/wine	SRA
+YJM193	NA	Distillery	NA		Europe/wine	ASM
+YJM271	NA	Brewery	NA		Europe/wine	ASM
+GSY2239	NA	Commercial Ale	NA		Europe/wine	ASM
+JAY291	NA	Bioethanol	NA		Europe/wine	ASM
+CBS_7960	Brazil	Cane Ethanol	no snp		Europe/wine	ASM
+T73	Spain	Wine	NA		Europe/wine	ASM
+Fermicru4F9	NA	Commercial wine yeast	no snp	15	Europe/wine	SRA
+IOC9002	NA	Commercial wine yeast	no snp	15	Europe/wine	SRA
+YJM1574	Wine	wine/European	NA		Europe/wine	ASM
+YJM270	Slovenia	Wine	NA		Europe/wine	ASM
+ZP1041	Meda  Guarda  Portugal	Vineyard soil	no snp		Europe/wine	SRA
+YJM987	Italy	Clinical	NA		Europe/wine	ASM
+YJM996	Italy	Clinical	NA		Europe/wine	ASM
+YJM993	Italy	Clinical	NA		Europe/wine	ASM
+YJM975	Italy	Clinical	NA		Europe/wine	ASM
+YJM984	Italy	Clinical	NA		Europe/wine	ASM
+YJM969	Italy	Clinical	NA		Europe/wine	ASM
+YJM978	Italy	Clinical	NA		Europe/wine	ASM
+YJM972	Italy	Clinical	NA		Europe/wine	ASM
+YJM981	Italy	Clinical	NA		Europe/wine	ASM
+YJM990	Italy	Clinical	NA		Europe/wine	ASM
+Lalvin_QA23	Europe	Commercial wine yeast	NA		Europe/wine	ASM
+TUM511	NA	California ale	no snp		Europe/wine	SRA
+VL3	France	Commercial wine yeast	NA		Europe/wine	ASM
+P283	Italy	Grapes	NA		Europe/wine	ASM
+EXF7200	On the road from Durmitor to Niksic (Jasenovo polje)  Montenegro	Quercus robur	NA		Europe/wine	SRA
+AWRI1631	South Africa	Commercial wine yeast	NA		Europe/wine	ASM
+AWRI796	NA	Commercial wine yeast	NA		Europe/wine	ASM
+M5	Italy	Vineyard	NA		Europe/wine	ASM
+L1528	Chile	Wine must	NA		Europe/wine	ASM
+UFMG_A-905	Brazil	cachaca production	NA		Europe/wine	ASM
+CLIB215	New Zealand	Baker	NA		Europe/wine	ASM
+DBVPG1373	Netherlands	Soil	NA		Europe/wine	ASM
+DAV1e	Davenport Vineyards  Southern UK	Quercus robur	no snp		Europe/wine	SRA
+L1374	Chile	Wine must	no snp		Europe/wine	SRA
+Vin13	NA	Commercial wine yeast	no snp		Europe/wine	ASM
+VelF	Velanidias  Southern Greece	Ficus carica	NA		Europe/wine	SRA
+R008	Italy	Grapes	NA		Europe/wine	ASM
+R103	Italy	Grapes	NA		Europe/wine	ASM
+EXF6719	Cuber  Slovenia	Wine must	no snp		Europe/wine	SRA
+P301	Italy	Grapes	NA		Europe/wine	ASM
+UCD51	France	Vineyard	NA		Europe/wine	ASM
+YJM1078	Portugal	Clinical	NA		Europe/wine	ASM
+YJM1252	Spain	Alpechin	NA		Europe/wine	ASM
+YJM248	NA	Clinical (feces)	NA		Europe/wine	ASM
+YJM1387	Japan	Wine	NA		Europe/wine	ASM
+NIC 1-2A	Nueva Segovia - Nicaragua	Green coffee beans	no snp		Europe/wine	SRA
+BC187	CA  USA	Wine must	NA		Europe/wine	ASM
+BC217	CA  USA	Wine must	no snp		Europe/wine	SRA
+DBVPG1788	Finland	Soil	no snp		Europe/wine	SRA
+WE372	S.Africa	Vineyard	NA		Europe/wine	ASM
+YJM1332	Italy	Wine	NA		Europe/wine	ASM
+ZP862	Caratão  Abrantes  Portugal	Apple with insect holes	no snp		Europe/wine	SRA
+DBVPG1106	Australia	Grapes	NA		Europe/wine	ASM
+ZP641	Castelo de Vide  Portugal 	Spontaneous red wine fermentation	no snp		Europe/wine	SRA
+M22	Europe	Vineyard	NA		Europe/wine	ASM
+ZP577	Aldeia das Dez  Portugal	Quercus faginea	no snp		Europe/wine	SRA
+YJM189	NA	Distillery	NA		Europe/wine	ASM
+DBVPG6765	Indonesia	Lichee fruit	NA		Europe/wine	ASM
+YJM1356	NA	Cider	NA		Europe/wine	ASM
+YJM1129	OH  USA	Distillery	NA		Europe/wine	ASM
+YJM1526	NA	Clinical (throat)	NA		Europe/wine	ASM
+ZP579	Aldeia das Dez  Portugal	Quercus pyrenaica	no snp		Europe/wine	SRA
+YJM1477	MO  USA	Blatz beer	NA		Europe/wine	ASM
+YJM1341	South Africa	Wine	NA		Europe/wine	ASM
+YJM1244	Indonesia	Fruit	NA		Europe/wine	ASM
+YJM1336	Italy	Wine	NA		Europe/wine	ASM
+YJM1415	France	Wine	NA		Europe/wine	ASM
+YJM1242	IL  USA	Fruit	NA		Europe/wine	ASM
+RM11-1a	N.America	Vineyard	NA		Europe/wine	ASM
+ZP861	Caratão  Abrantes  Portugal	Sun-dryed apple with ants 	no snp		Europe/wine	SRA
+ZP578	Aldeia das Dez  Portugal	Quercus faginea	no snp		Europe/wine	SRA
+YJM453	NA	Clinical	NA		Europe/wine	ASM
+YJM1417	HI  USA	ND	NA		Europe/wine	ASM
+YJM244	Romania	Clinical	NA		Europe/wine	ASM
+YJM456	"CA, USA"	Clinical	NA		Japan 2	ASM
+BJ10	"Beijing, China"	Bark of Ulmus sp.	no snp		Europe/wine	SRA
+YJM1338	"MD, USA"	Sour fig	NA		Japan 2	ASM
+YO840	Costa Rica	"Unroasted beans, cacao"	no snp		Japan 2	SRA
+YO849	Peru	"Unroasted beans, cacao"	no snp		Europe/wine	SRA
+YJM1527	"Winters, CA, USA"	Prune	NA		Europe/wine	ASM
+YO397	"California, USA"	Beetle from infested Prunus Bokhariensis	no snp		Europe/wine	SRA
+YJM1433	France	Wine	NA		Europe/wine	ASM
+YJM1450	"Newcastle, UK"	Clinical	NA		Europe/wine	ASM
+YJM1355	"IL, USA"	Molasses	NA		Europe/wine	ASM
+YJM1383	Philippines	Coconut	NA		Europe/wine	ASM
+YJM1250	NA	Sugar cane	NA		Europe/wine	ASM
+P-SI1	San Ignacio Cajamarca - Peru	Green coffee beans	no snp		Europe/wine	SRA
+YO376	"Evolution Canyon, Israel"	Sunny spot	no snp	"1,2"	Europe/wine	SRA
+HC 1-2	Honduras	Green coffee beans	no snp		Europe/wine	SRA
+GT 2-3B	"Huehuetenango, Guatemala"	Green coffee beans	no snp		Europe/wine	SRA
+YO874	Haiti	"Unroasted beans, cacao"	no snp		Europe/wine	SRA
+YO814	Nigeria	"Unroasted beans, cacao"	3		Europe/wine	SRA
+YO416	Ghana	Cacao fermentation	2		Europe/wine	SRA
+YO419	Ghana	Cacao fermentation	2		Europe/wine	SRA
+AN3e1	"Halkidiki, Greece"	Ficus carica	no snp		Europe/wine	SRA
+I14	Italy	Soil	NA		Europe/wine	ASM
+SM69s1	"North Carolina, USA"	Oak	no snp		Europe/wine	SRA
+ZP653	Japan	Quercus acutissima	no snp		Japan 2	SRA
+ZP652	Japan	Quercus acutissima	no snp		Japan 2	SRA
+ZP675	Japan	Quercus acutissima	no snp		Japan 2	SRA
+ZP674	Japan	Quercus acutissima	no snp		Japan 2	SRA
+ZP676	Japan	Quercus acutissima	no snp		Japan 2	SRA
+ZP651	Japan	Quercus acutissima	no snp		Japan 2	SRA
+ZP680	Japan	Quercus acutissima	no snp	multiple	Japan 2	SRA
+ZP650	Japan	Quercus acutissima	no snp		Japan 2	SRA
+ZP677	Japan	Quercus acutissima	no snp		Japan 2	SRA
+YJM1434	"PA, USA"	Oak	NA		Japan 2	ASM
+YJM1273	PA  USA	Oak tree	NA		Japan 2	ASM
+YPS163	"PA, USA"	Oak	NA		Japan 2	ASM
+YJF153	"PA, USA"	Oak	no snp		Japan 2	SRA
+YPS128	"PA, USA"	Oak	NA		Japan 2	ASM
+UWOPS83-787.3	Bahamas	Fruit	NA		Japan 2	ASM
+YJM1443	Bahamas	Fruit	NA		Japan 2	ASM
+MC1 1-1	Mexico	Green coffee beans	no snp	8	Japan 2	SRA
+EXF6761	Cerkvenjak  Slovenia	Quercus petraea	no snp		Japan 2	SRA
+T7	"MO, USA"	Oak	NA		Japan 2	ASM
+ZP823	Japan	Quercus acutissima	no snp		Japan 1	SRA
+ZP786	Japan	Quercus dentata	no snp		Japan 1	SRA
+ZP784	Japan	Quercus dentata	no snp		Japan 1	SRA
+ZP794	Japan	Quercus dentata	no snp		Japan 1	SRA
+ZP796	Japan	Quercus dentata	no snp		Japan 1	SRA
+ZP793	Japan	Quercus dentata	no snp		Japan 1	SRA
+ZP783	Japan	Quercus acutissima	no snp		Japan 1	SRA
+ZP778	Japan	Quercus acutissima	no snp		Japan 1	SRA
+ZP779	Japan	Quercus acutissima	no snp		Japan 1	SRA
+ZP780	Japan	Quercus acutissima	low		Japan 1	SRA
+ZP781	Japan	Quercus serrata	no snp		Japan 1	SRA
+ZP817	Japan	Quercus acutissima	no snp		Japan 1	SRA
+YJM1402	NA	Grape vine	NA		Japan 1	ASM
+YJM1573	India	Fermented food	NA		Japan 1	ASM
+YPS1009	"New Jersey, USA"	Oak exudate	NA		Japan 1	ASM
+YO769	"San Diego County, California, USA"	"Mud, leaves"	no snp		Japan 1	SRA
+ZP530	Portugal	Castanea sativa	no snp		Japan 1	SRA
+SDO2s1	"North Carolina, USA"	Oak	no snp		Japan 1	SRA
+SDO3s1	"North Carolina, USA"	Oak	no snp		Japan 1	SRA
+SK1	NA	Laboratory	no snp		Japan 1	ASM
+UWO034333	Malaysia	Bertram Palm	no snp		China	SRA
+YJM1447	Malaysia	Bertam Palm	NA		China	ASM
+UWOPS03-461.4	Malaysia	Palm	NA		China	ASM
+UWOPS05_217_3	Malaysia	Palm	NA		China	ASM
+YJM1418	Japan	Oak tree	NA		China	ASM
+YO724	NA	Bark from Quercus variabi (Asian Oak)	no snp		China	SRA
+EN14S01	Taiwan	Soil	no snp		China	SRA
+SX6	"Shaanxi, China"	Bark of Quercus fabri	no snp		China	SRA
+BJ20	"Beijing, China"	Bark of Quercus wutaishanica	no snp		China	SRA
+HN6	"Hainan, China"	Rotten wood	no snp		China	SRA
+Y55	France	Wine	NA		Africa	ASM
+YJM627	NA	Laboratory	NA		Africa	ASM
+YO823	Nigeria	"Unroasted beans, cacao"	no snp		Africa	SRA
+YO815	Nigeria	"Unroasted beans, cacao"	no snp		Africa	SRA
+YO820	Nigeria	"Unroasted beans, cacao"	no snp		Africa	SRA
+Sigma1278b	NA	Laboratory	NA		Africa	ASM
+DBVPG6044	West Africa	Bili Wine	NA		Africa	ASM
+PW5	"Nigeria, Africa"	Palm wine	NA		Africa	ASM
+YJM195	Nigeria	Palm wine	NA		Africa	ASM
+YJM1248	West Africa	Wine	NA		Africa	ASM
+YJM1439	West Africa	Ginger beer	NA		Africa	ASM
+YJM555	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM1133	"NC, USA"	Clinical	NA		Clinical	ASM
+YJM789	"KA, USA"	Clinical	NA		Clinical	ASM
+YJM320	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM541	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM554	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM682	"TX, USA"	Clinical	NA		Clinical	ASM
+YJM683	"TX, USA"	Clinical	NA		Clinical	ASM
+YJM326	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM421	NA	Clinical	NA		Clinical	ASM
+EC9-8	"Evolution Canyon, Israel"	Soil	NA		Clinical	ASM
+IR-2	Indonesia	"Isolated from fermented food, used for bioethanol"	NA		Clinical	ASM
+NAM34-4C	NA	"Haploid derivative of KF-7, a protoplast fusion of IR-2 and EP-1"	NA		Clinical	ASM
+YJM1419	NA	Bagasse	NA		Clinical	ASM
+YJM1208	"MI, USA"	Clinical	NA		Clinical	ASM
+YJM1615	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM451	NA	Clinical	NA		Clinical	ASM
+KNp	"Nyeri District, Kenya"	Green coffee beans	no snp		Clinical	SRA
+YO645	Costa Rica	Banana	2		Clinical	SRA
+YJM470	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM1083	"NC, USA"	Clinical	NA		Clinical	ASM
+YO374	"Evolution Canyon, Israel"	"Shady spot, Station 6"	2	"1,8"	Clinical	SRA
+YJM1386	Jamaica	Sugar cane	NA		Clinical	ASM
+YO728	Jamaica	Cane juice	2		Clinical	SRA
+YJM1381	Trinidad	Rum fermentation	NA		Clinical	ASM
+YO705	Brazil	Fermented cassava mash	3	"8,14"	Clinical	SRA
+YJM1549	Netherlands	Fermenting fruit juice	NA		Clinical	ASM
+YJM1385	"MD, USA"	Sugar refinery	NA		Clinical	ASM
+YJM693	"TX , USA"	Clinical	NA		Clinical	ASM
+YJM1326	"MN, USA"	Clinical	NA		Clinical	ASM
+YJM681	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM1311	"MI, USA"	Clinical	NA		Clinical	ASM
+YO798	"New Orleans, LA, USA"	Citrus juice	2	14	Clinical	SRA
+YJM428	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM689	"TX, USA"	Clinical	NA		Clinical	ASM
+YJM339	NA	Clinical	NA		Clinical	ASM
+YJM450	"CA, USA"	Clinical	NA		Clinical	ASM
+YJM1199	"MI, USA"	Clinical	NA		Clinical	ASM
+YJM1202	"MI, USA"	Clinical	NA		Clinical	ASM
+YJM1190	"MI, USA"	Clinical	NA		Clinical	ASM
+YJM1304	"TX, USA"	Clinical	NA		Clinical	ASM
+CO-SB4	"Santa Barbara, Colombia"	Green coffee beans	no snp		Clinical	SRA
+YPS1000	"New Jersey, USA"	Oak exudate	no snp		Africa	SRA
+UWOPS87-2421	Hawaii	Cladode	NA		Africa	ASM
+YJM1444	Hawaii	Cladode	NA		Africa	ASM
+HN14	"Hainan, China"	Rotton wood	no snp		Africa	SRA
+SD1	"Shandong, China"	Persimon	no snp		Africa	SRA
+YJM1342	South Africa	Soil	NA		Japan 1	ASM
+"Y-12638,  CBS 2888"	South Africa	Soil	no snp		Japan 1	SRA
+YJM1400	Philippines	Guava	NA		Africa	ASM
+YJM1479	Philippines	Coconut tuba	NA		Africa	ASM
+YJM269	Portugal	Grapes	NA		Africa	ASM
+YO317	Philippines	Coconut	no snp		Africa	SRA
+NRRLYB4084	Philippines	Coconut sap	low-likely	multiple	Africa	SRA
+YJM1401	Philippines	Papaya	NA		Africa	ASM
+YO870	Haiti	"Unroasted beans, cacao"	2		Japan 1	SRA
+W.WLP045	NA	Commercial Whiskey	low-likely		Beer/baking	SRA
+A.Coopers	Australia	Commercial Ale	low-likely		Beer/baking	SRA
+YO721	NA	Kefyr (Y-393)	3	"3,9"	Beer/baking	SRA
+ABM4	NA	Commercial Baking	3	"6,9"	Beer/baking	SRA
+YO734	"Yosemite, California, United States"	D. pseudoobscura	3		Beer/baking	SRA
+ABM3	NA	Commercial Baking	3	"6,9"	Beer/baking	SRA
+ABM5	NA	Commercial Baking	3	9	Beer/baking	SRA
+A.Windson	England	Commercial Ale	low-likely		Beer/baking	SRA
+A.S-33	England	Commercial Ale	low-likely		Beer/baking	SRA
+L.Brewferm	NA	Commercial Lager	4	"3,9"	Beer/baking	SRA
+A.Muntons	England	Commercial Ale	low-likely		Beer/baking	SRA
+ABM1	NA	Commercial Baking	4	"2,13,15"	Beer/baking	SRA
+TUM506	Great Britain	British ale	3	9	Beer/baking	SRA
+A.T-58	Belgium	Commercial Ale	low-likely		Beer/baking	SRA
+"Y-2189,  UCD-FST 50-55"	"San Jacinto, CA, USA"	D. pseudoobscura	3	multiple	Beer/baking	SRA
+YS9	Singapore	Baker	NA		Beer/baking	ASM
+JV2	Java - Indonesia	Green coffee beans	3	multiple	Beer/baking	SRA
+YE 1-1	"Ismaili District, Yemen"	Green coffee beans	3		Beer/baking	SRA
+ETH 2	"Yirgacheffe, Ethiopia"	Green coffee beans	3	"1,3"	Beer/baking	SRA
+YO807	NA	Canned peaches	4		Beer/baking	SRA
+YO465	"Gothenburg, Sweden"	Fish gut	4	7	Beer/baking	SRA
+YO707	NA	Coconut pod	3	multiple	Beer/baking	SRA
+RedStar	USA	Commercial baking	NA		Beer/baking	ASM
+YO367	"Evolution Canyon, Israel"	"South facing shady spot, Station 2"	4	multiple	Beer/baking	SRA
+ABM2	NA	Commercial Baking	3	"1,14"	Beer/baking	SRA
+TUM480	South Africa	Opaque beer	2		Beer/baking	SRA
+PYCC4226	NA	Commercial bread dough	2	9	Beer/baking	SRA
+A.BRY-97	American	Commercial Ale	low		Beer/baking	SRA
+Platinum	NA	Commercial bread dough	3		Beer/baking	SRA
+L.2278	NA	Commercial Lager	low-likely	multiple	Lager	SRA
+L.S-23	NA	Commercial Lager	low-likely	multiple	Lager	SRA
+YMD1874	NA	Commercial Lager	3	multiple	Lager	SRA
+L.W-34-70	NA	Commercial Lager	low-likely	multiple	Lager	SRA
+L.WLP820	NA	Commercial Lager	low	multiple	Lager	SRA
+CBS1483	NA	Lager	NA		Lager	ASM
+CCY48-91	NA	Lager	NA		Lager	ASM
+L.2112	NA	Commercial Lager	low-likely	multiple	Lager	SRA
+W.34	NA	Lager	NA		Lager	ASM
+W.WLP070	NA	Commercial Whiskey	low-likely	multiple	Lager	SRA
+A.3942	Belgium	Commercial Wheat	low-likely		Ale 2	SRA
+TUM205	Würzburg; Germany	Wheat beer	3		Ale 2	SRA
+TUM174	Mülheim; Germany	Regional beer similar to Kölsch beer	low-likely		Ale 2	SRA
+TUM208	Rhineland-Palatinate; Germany	Alt beer	low-likely	"9,10"	Ale 2	SRA
+YMD1871	Germany	Commercial Ale	4		Ale 2	SRA
+YMD1952	Germany	Commercial Ale	4		Ale 2	SRA
+YMD1875	Belgium	Commercial Ale	4	"1,6,9"	Ale 2	SRA
+YMD1950	Belgium	Commercial Wheat	4		Ale 2	SRA
+A.1007	Germany	Commercial Ale	low-likely		Ale 2	SRA
+NRRL_Y-12632	Netherlands	"CBS1171 and was originally isolated from the brewer’s top yeast, in Netherlands in 1925"	NA		Ale 2	ASM
+TUM148	Düsseldorf; Germany	Alt beer	low-likely		Ale 2	SRA
+TUM177	Krefeld; Germany	Alt / Kölsch beer	low-likely	"6,9"	Ale 2	SRA
+A.2565	Germany	Commercial Ale	low-likely		Ale 2	SRA
+TUM513	NA	California ale	4		Ale 2	SRA
+TUM308	Rhineland-Palatinate; Germany	Alt beer	4		Ale 2	SRA
+TUM338	Düsseldorf; Germany	Alt beer	4		Ale 2	SRA
+A.US-05	American	Commercial Ale	low-likely		Ale 1	SRA
+TUM510	Great Britain	British ale	4	multiple	Ale 1	SRA
+TUM213	Great Britain	British ale / stout	4	"2,13"	Ale 1	SRA
+YMD1864	England	Commercial Ale	4	9	Ale 1	SRA
+YMD1868	American	Commercial Ale	4	multiple	Ale 1	SRA
+A.Munich	Germany	Commercial Wheat	low-likely		Ale 1	SRA
+TUM381	Belgium	Belgian beer	4		Ale 1	SRA
+TUM175	Freising-Weihenstephan; Germany	Wheat beer	4		Ale 1	SRA
+YMD1873	Germany	Commercial Wheat	4	10	Ale 1	SRA
+TUM149	Munich; Germany	Wheat beer	low-likely		Ale 1	SRA
+TUM507	NA	Ale Beer from wheatmalt	5	15	Ale 1	SRA
+TUM503	NA	California ale	4		Ale 1	SRA
+TUM165	Burton-upon-Trend; Great Britain	British ale	low-likely		Ale 1	SRA
+FostersB	NA	Commercial brewing ale strain 	3	"2,5,15"	Ale 1	SRA
+TUM210	Great Britain	British ale / stout	low-likely		Ale 1	SRA
+A.1187	Britain	Commercial Ale	low-likely	9	Ale 1	SRA
+FostersO	NA	Commercial brewing ale strain 	low-likely	multiple	Ale 1	SRA
+A.1968	England	Commercial Ale	low-likely		Ale 1	SRA
+YMD1867	American	Commercial Ale	4	multiple	Ale 1	SRA
+YMD1981	England	Commercial Ale	4	multiple	Ale 1	SRA
+TUM508	Ireland	Irish ale / stout	4	2	Ale 1	SRA
+YMD1866	Scotland	Commercial Ale	4	multiple	Ale 1	SRA
+YMD1869	Britain	Commercial Ale	3		Ale 1	SRA
+YMD1872	England	Commercial Ale	4	"1,15"	Ale 1	SRA
+YMD1865	England	Commercial Ale	4	6	Ale 1	SRA
+YMD1870	Britain	Commercial Ale	4		Ale 1	SRA
+A.1728	Scotland	Commercial Ale	low-likely		Ale 1	SRA
+A.Nottingham	England	Commercial Ale	low-likely		Ale 1	SRA
+A.S-04	England	Commercial Ale	low-likely		Ale 1	SRA
+A.1945	England	Commercial Ale	low-likely		Ale 1	SRA
+TUM211	Great Britain	British ale / stout	low-likely	"2,3,15"	Ale 1	SRA
+YJM280	USA	Clinical	NA		Lab	ASM
+YJM653	NA	Clinical	NA		Lab	ASM
+SON4c	Portugal	Ficus carica	NA		Lab	SRA
+10560-6B	NA	Laboratory	NA		Lab	ASM
+D273-10B	NA	Laboratory	NA		Lab	ASM
+YPH499	NA	Laboratory	NA		Lab	ASM
+FY1679	NA	Laboratory	NA		Lab	ASM
+X2180-1A	NA	Laboratory	NA		Lab	ASM
+CEN.PK113-7D	NA	Laboratory	NA		Lab	ASM
+BY4742	NA	Laboratory	NA		Lab	ASM
+S288C	NA	Laboratory	no snp		Lab	SRA
+BY4741	NA	Laboratory	NA		Lab	ASM
+W303	NA	Laboratory	NA		Lab	ASM
+CEN.PK2-1Ca	NA	Laboratory	NA		Lab	ASM
+JK9-3d	NA	Laboratory	NA		Lab	ASM
+SEY6210	NA	Laboratory	NA		Lab	ASM
+YO649	China	Fermented food	no snp	"1,3,8"	Asia/sake	SRA
+Y9combined	Indonesia	Ragi	NA		Asia/sake	ASM
+YJM1592	Thailand	Sewage	NA		Asia/sake	ASM
+YO648	Malaysia	Tapioca	no snp		Asia/sake	SRA
+YJM1460	Africa	Palm Wine	NA		Asia/sake	ASM
+M3839	NA	Commercial distillers yeast	NA		Asia/sake	ASM
+Y12	Africa	Palm wine	NA		Asia/sake	ASM
+M3838	NA	Segregant of commercial distillers yeast	NA		Asia/sake	ASM
+YJM1388	Malaya	Fermented tapioca	NA		Asia/sake	ASM
+YJM1389	Thailand	Sewage	NA		Asia/sake	ASM
+YJSH1	China	Derived from YJS329 a commercial bioethanol strain	NA		Asia/sake	ASM
+K11	Japan	Sake	NA		Asia/sake	ASM
+N85	China	Yellow Rice Wine	NA		Asia/sake	ASM
+NRRLY12844	Philippines	Budod	no snp		Asia/sake	SRA
+YO732	NA	Amylo process-isolating EtOH from starch	low-likely	"3,6"	Asia/sake	SRA
+YO770	"San Diego County, California, USA"	Segregant of commercial distillers yeast	2		Asia/sake	SRA
+TUM127	Freising-Weihenstephan; Germany  (progeny of TUM 68)	Wheat beer	low		Asia/sake	SRA
+CBS1585	Nakazawa; Japan	Sake moto	no snp	5	Asia/sake	SRA
+CBS1598	Nakazawa; Japan	Sake moto	no snp	8	Asia/sake	SRA
+TUM184	Düsseldorf; Germany	Alt beer	no snp	"3,9"	Asia/sake	SRA
+TUM380	Belgium	Starter culture for Lambic beer	no snp		Asia/sake	SRA
+TUM68	Freising-Weihenstephan; Germany 	Wheat beer	NA		Asia/sake	SRA
+CBS435	Nakazawa; Japan	Sake moto	no snp		Asia/sake	SRA
+ISO12	NA	Evolved from commercial bioethanol EthanolRed	NA		Asia/sake	ASM
+NRRLY1157	Japan	Sake moto	no snp	3	Asia/sake	SRA
+M3836	NA	Segregant of commercial distillers yeast	NA		Asia/sake	ASM
+UC5	Japan	Sake	NA		Asia/sake	ASM
+Kyokai_no.7	Asia	Sake	NA		Asia/sake	ASM
+M3837	NA	Segregant of commercial distillers yeast	NA		Asia/sake	ASM
+Ethanol_Red	NA	Commercial bioethanol	no snp		Asia/sake	ASM
+M3707	NA	Commercial distillers yeast	NA		Asia/sake	ASM
+YO841	Costa Rica	"Unroasted beans, cacao"	2		Asia/sake	SRA
+NY1308	"Henan, China"	Industrial ethanol fermentation	NA		Asia/sake	ASM
+YO700	Pakistan	Baker	2		Asia/sake	SRA
+ZTW1	China	Corn mash ethanol fermentation	NA		Asia/sake	ASM
+YO647	Nepal	Murcha yeast cake	no snp		Asia/sake	SRA
+YO672	India	"Jalebi, Indian fried (sweet) snack"	3		Asia/sake	SRA
+AN1f2	"Halkidiki, Greece"	Ficus carica	no snp		Asia/sake	SRA
+AN1g2	"Halkidiki, Greece"	Ficus carica	no snp		Asia/sake	SRA
+4124-S60	NA	Molasses Distillery	NA		Asia/sake	ASM
+YO468	Tanzania	Togwa	3		Asia/sake	SRA
+YJM1307	"DC, USA"	Clinical	NA		Asia/sake	ASM
+YO670	United States	Wheat starch	2		Asia/sake	SRA
+Smikatae	Outgroup	Outgroup	Outgroup	Outgroup	Outgroup
+Sparadoxus	Outgroup	Outgroup	Outgroup	Outgroup	Outgroup
+
