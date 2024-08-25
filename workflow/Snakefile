@@ -1,43 +1,40 @@
+import os
 # Snakefile for runnign several admixture analyses.
 
-from snakemake.utils import min_version
+config: "../config/config.yaml"
 
+from snakemake.utils import min_version
 min_version("8.14") # using the exists() function
+
+imclude: "rules/setup.smk"
+
 
 onsuccess:
     print("Workflow finished, no error")
-
+    shell("send_message.py 'Admixture pipeline finished, no error'") # comment out this line if you don't have a messenger script
 onerror:
     print("An error occurred, see the log")
+    shell("send_message.py 'An error occured in TreeMix pipeline, see the log: {log}'")
     
-    
-print ("----------------------------------------------------------------------------")
-print ("Starting Admixture analysis pipeline")
-print ("Merging the following input data files:\n Panel: "+PANEL+ "\n VCF: "+VCF)
-print ("Sometimes a small number of TreeMix bootstrap replicates may not terminate.")
-print ("If this is the case, interupt the workflow and run it again with --rerun-incomplete")
-print ("----------------------------------------------------------------------------")
+onstart::    
+    print ("----------------------------------------------------------------------------")
+    print ("Starting Admixture analysis pipeline")
+    print ("Merging the following input data files:\n Panel: "+PANEL+ "\n VCF: "+VCF)
+    print ("Sometimes a small number of TreeMix bootstrap replicates may not terminate.")
+    print ("The workflow will re-try these jobs up to 5 times")
+    print ("----------------------------------------------------------------------------")
+    shell('send_message.py "TreeMix pipeline started at $(date)"') # comment out this line if you don't have a messenger script
 
-PANEL="S1_Data.vcf.gz"
-#VCF="kveik-all-Ploidy2-noMit.vcf-filtered-selected.vcf.gz"
-VCF="selected-SNPINDEL_Ploidy2.vcf.gz"
+# The messenger script is not included in the repository 
+
+PANEL="input/S1_Data.vcf.gz"
+VCF="input/selected-SNPINDEL_Ploidy2.vcf.gz"
+
 TreeMixBoot=range(1,501) # Number of bootstrap replicates (500)
 TreeMixMigr=range(0,11) # Max number of Migration events to test
 Chromosomes=map(lambda x: "chr"+str(x) , range(1,16+1)) # Chromosomes to use
 SiteFilters=["LDpruned", "SweeD", "Sake-Kveik-Fst"]
-onsuccess:
-    print("Workflow finished, no error")
 
-onerror:
-    print("An error occurred, see the log")
-    
-    
-print ("----------------------------------------------------------------------------")
-print ("Starting Admixture analysis pipeline")
-print ("Merging the following input data files:\n Panel: "+PANEL+ "\n VCF: "+VCF)
-print ("Sometimes a small number of TreeMix bootstrap replicates may not terminate.")
-print ("If this is the case, interupt the workflow and run it again with --rerun-incomplete")
-print ("----------------------------------------------------------------------------")
 
 Leave1Out=list(map(lambda x: "L1O_"+x, Chromosomes))
 # comment out the following line to disable Leave-1-chromosome-out analysis
@@ -47,101 +44,73 @@ Leave1Out=list(map(lambda x: "L1O_"+x, Chromosomes))
 admixture_k=range(2,17)
 AdmixtoolsN=TreeMixMigr
 
-onsuccess:
-    print("Workflow finished, no error")
 
-onerror:
-    print("An error occurred, see the log")
-    
-    
-print ("----------------------------------------------------------------------------")
-print ("Starting Admixture analysis pipeline")
-print ("Merging the following input data files:\n Panel: "+PANEL+ "\n VCF: "+VCF)
-print ("Sometimes a small number of TreeMix bootstrap replicates may not terminate.")
-print ("If this is the case, interupt the workflow and run it again with --rerun-incomplete")
-print ("----------------------------------------------------------------------------")
 
 rule all:
     input:
-        setup=".setup_complete",
+        setup="misc/.setup_complete",
         idx1=expand("{v}.csi", v=VCF),
         idx2=expand("{p}.csi", p=PANEL),
-        #final_frq="final-panel.LDpruned.treemix.frq.gz",
-        # treemix_LD_reps=expand("TreeMix/bootstrap/bootrep_{filter}_m{mig}_b{rep}.treeout.gz", filter=SiteFilters, mig=TreeMixMigr, rep=TreeMixBoot),
-        #alltrees=expand("TreeMix/{filters}_m{migrations}.contree",  filters=SiteFilters, migrations=TreeMixMigr),
-        cons=expand("TreeMix/Consensus_{filter}_m{migrations}.treeout.gz",  filter=SiteFilters, migrations=TreeMixMigr),
-       # plot=expand("TreeMix/plots/{filter}-OptM-plot.pdf", filter=SiteFilters),
-        #txt=expand("TreeMix/{filter}-OptM.txt", filter=SiteFilters),
-        treeplots=expand("TreeMix/plots/Consensus_{filter}_plots.pdf", filter=SiteFilters),
-        admixtureplots=expand("admixture/plots/final-panel.{filter}.tiff", filter=SiteFilters),
-        admixtools_import=expand("admixture/final-panel.{filter}.f2data", filter=SiteFilters),
-        admixtools_plots=expand("admixture/admixtools/plots/final-panel.{filter}.pdf", filter=SiteFilters),
-#        admixbayes=expand('admixbayes/plots/admixturebayes-{filter}_topology_1.pdf', filter=SiteFilters)
+        cons=expand("results/TreeMix/Consensus_{filter}_m{migrations}.treeout.gz",  filter=SiteFilters, migrations=TreeMixMigr),
+        treeplots=expand("results/TreeMix/plots/Consensus_{filter}_plots.pdf", filter=SiteFilters),
+        admixtureplots=expand("results/admixture/plots/final-panel.{filter}.tiff", filter=SiteFilters),
+        admixtools_import=expand("results/admixture/final-panel.{filter}.f2data", filter=SiteFilters),
+        admixtools_plots=expand("results/admixture/admixtools/plots/final-panel.{filter}.pdf", filter=SiteFilters),
+#        admixbayes=expand('results/admixbayes/plots/admixturebayes-{filter}_topology_1.pdf', filter=SiteFilters)
 
 rule clean:
-    message: "Cleaning analysis results."
+    message: "Cleaning analysis results. Installed tools will not be removed."
     shell:
         r"""
-        rm -rf TreeMix/ admixture/ admixbayes/
-        rm -f *.frq.gz
-        rm -f misc/yeast.clust merged.vcf.gz renamed.vcf.gz* final-panel.vcf.gz \
-        final-panel.*.vcf.gz \
-        sake_vs_kveik_fst.windowed.weir.fst \
-        sake_vs_kveik_fst.windowed.weir.bed \
-        sake_vs_kveik_fst.windowed.weir.plots.pdf \
-         final-panel.*.bed final-panel.*.fam 
-        
+        rm -rf results/
+        rm -f misc/yeast.clust        
         """
              
-        
-
 
 ### rule for generating a single bootstrap replicates
 ### bootstrap replicates will be run in parallel
 
 rule:
-    name: "TreeMix_bootstrap_{myfilter}_{migrations}_{replicate}" 
+    name: "TreeMix_bootstrap" 
     conda: "envs/treemix.yaml"
-    input: "final-panel.{myfilter}.treemix.frq.gz"
+    input: "results/final-panel.{myfilter}.treemix.frq.gz"
     output:
-        treeout="TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}.treeout.gz",
-            cov="TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}.cov.gz",
-            modelcov="TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}.modelcov.gz",
-            llik="TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}.llik"
-            #dir=directory("TreeMix/bootstrap/{myfilter}")
+        treeout="results/TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}.treeout.gz",
+            cov="results/TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}.cov.gz",
+            modelcov="results/TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}.modelcov.gz",
+            llik="results/TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}.llik"
+           
     threads: 1
     retries: 5
     resources:
         nr = lambda wildcards, attempt: attempt,
-        runtime = "3h"
+        runtime = "12h"
         
-    log: "TreeMix/logs/bootrep_{myfilter}_m{migrations}_b{replicate}.log"
+    log: "logs/bootrep_{myfilter}_m{migrations}_b{replicate}.log"
     params:
-        prefix="TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}"
+        prefix="results/TreeMix/bootstrap/{myfilter}/bootrep_m{migrations}_b{replicate}"
         
     message:
-        "TreeMix boostrap replicate no. {wildcards.replicate} - filter: {wildcards.myfilter} migrations: {wildcards.migrations} max runtime per job: {resources.runtime} min, try {resources.nr} of 5"    
+        "TreeMix boostrap replicate no. {wildcards.replicate} - filter: {wildcards.myfilter} migrations: {wildcards.migrations}, Log file: {log}"    
     shell:
         r"""
-        mkdir -p TreeMix/bootstrap/{wildcards.myfilter} 
+        mkdir -p results/TreeMix/bootstrap/{wildcards.myfilter} 
         SEED=$RANDOM
-        echo "SEED=$SEED" > {log}
-        #echo calculating bootstrap replicate  {wildcards.replicate} for {wildcards.myfilter} with {wildcards.migrations} migrations, seed: $SEED
-        echo 
+        #echo "SEED=$SEED" > {log}
+        echo calculating bootstrap replicate  {wildcards.replicate} for {wildcards.myfilter} with {wildcards.migrations} migrations, seed: $SEED > {log}
         timeout --kill-after=30s {resources.runtime}m treemix -i {input} -bootstrap -k 500 -se -m {wildcards.migrations} -root Outgroup -seed $SEED -o {params.prefix} >> {log} 2>&1
-        echo finished bootstrap replicate  {wildcards.replicate}, {wildcards.myfilter}, {wildcards.migrations} migrations, attempts: {resources.nr}
+        echo finished bootstrap replicate  {wildcards.replicate}, {wildcards.myfilter}, {wildcards.migrations} migrations, attempts: {resources.nr} >> {log}
         
         """
 
         # put all trees into a single file
 
-rule:
-    name: "merge_replicates_{nfilter}_{migrations}"
+rule: "merge_replicates"
     input:
-        expand("TreeMix/bootstrap/{{nfilter}}/bootrep_m{{migrations}}_b{replicate}.treeout.gz",
+        expand("results/TreeMix/bootstrap/{{nfilter}}/bootrep_m{{migrations}}_b{replicate}.treeout.gz",
                replicate=TreeMixBoot)
     output:
-        "TreeMix/alltrees_{nfilter}_m{migrations}.trees"
+        "results/TreeMix/alltrees_{nfilter}_m{migrations}.trees"
     message: "Merging replicates for {wildcards.nfilter}, migrations {wildcards.migrations}"
     shell:
          """
@@ -154,13 +123,13 @@ rule:
 rule:
     name: "OptM"
     conda: "envs/r-optm.yaml"
-    input: expand("TreeMix/bootstrap/{{nfilter}}/bootrep_m{migrations}_b{replicate}.llik", migrations=TreeMixMigr, replicate=TreeMixBoot)
-    output: plot="TreeMix/plots/{nfilter}-OptM-plot.pdf",
-            txt="TreeMix/{nfilter}-OptM.txt"
-    params: folder="TreeMix/bootstrap/{nfilter}"        
+    input: expand("results/TreeMix/bootstrap/{{nfilter}}/bootrep_m{migrations}_b{replicate}.llik", migrations=TreeMixMigr, replicate=TreeMixBoot)
+    output: plot="results/TreeMix/plots/{nfilter}-OptM-plot.pdf",
+            txt="results/TreeMix/{nfilter}-OptM.txt"
+    params: folder="results/TreeMix/bootstrap/{nfilter}"        
     shell:
         r"""
-        mkdir -p TreeMix/plots
+        mkdir -p results/TreeMix/plots
 cat <<'EOF' > {rule}.$$.tmp.R
 
 library(OptM)
@@ -179,16 +148,17 @@ EOF
 rule plot_trees:
     conda: "envs/treemix.yaml"
     input:
-        cons=expand("TreeMix/Consensus_{{filter}}_m{migrations}.treeout.gz", migrations=TreeMixMigr)
+        cons=expand("results/TreeMix/Consensus_{{filter}}_m{migrations}.treeout.gz", migrations=TreeMixMigr),
+        list="misc/yeast.list"
     output:
-        pdf="TreeMix/plots/Consensus_{filter}_plots.pdf"
+        pdf="results/TreeMix/plots/Consensus_{filter}_plots.pdf"
     params:
         ms=TreeMixMigr,
-        prefix="TreeMix/Consensus_{filter}_m"
+        prefix="results/TreeMix/Consensus_{filter}_m"
 
     shell:
         r"""
-mkdir -p TreeMix/plots
+mkdir -p results/TreeMix/plots
 cat <<'EOF' > {rule}.$$.tmp.R
 
 library(RColorBrewer)
@@ -201,7 +171,7 @@ pdf(file='{output.pdf}')
 for (m in mrange) {{
  x0=plot_tree(cex=1,  paste0(prefix,m))
  title(paste('{wildcards.filter}', m,"edges"))
- x1=plot_resid(stem=paste0(prefix,m), pop_order="misc/yeast.list")
+ x1=plot_resid(stem=paste0(prefix,m), pop_order="{input.list}")
 }}      
 dev.off()
         
@@ -209,7 +179,7 @@ dev.off()
 EOF
 
   Rscript {rule}.$$.tmp.R
-  #rm {rule}.$$.tmp.R
+  rm {rule}.$$.tmp.R
         
         
         """
@@ -221,105 +191,51 @@ EOF
          
 rule consensus:
     conda: "envs/phylip.yaml"
-    input: "TreeMix/alltrees_{nfilter}_m{migrations}.trees"
-    output: "TreeMix/{nfilter}_m{migrations}.contree"
+    input: "results/TreeMix/alltrees_{nfilter}_m{migrations}.trees"
+    output: "results/TreeMix/{nfilter}_m{migrations}.contree"
     params:
-        wdir="TreeMix/{nfilter}_m{migrations}_wdir"
+        wdir="results/TreeMix/{nfilter}_m{migrations}_wdir"
     shell:
         """
-        set -x
+        WD=$(pwd)
         mkdir -p {params.wdir}
         IN=$(realpath {input})
         OUT=$(realpath {output})
         posOutgroup=`head -1 {input} | tr "," "\n" | grep "Outgroup" -n | cut -d":" -f1`
         cd {params.wdir}
-
+        rm -f outtree
 	# echo $posOutgroup
 	echo $IN > pconf
 	echo "O" >> pconf
 	echo $posOutgroup >> pconf
 	echo "Y" >> pconf
-        consense < pconf > consense.out
+        consense < pconf
         cat outtree | tr -d "\n" > $OUT
         echo >> $OUT
-        cd ../..
-        rm -rf {params.wdir}/
+        cd $WD
+        rm -r {params.wdir}/
         """
   
 rule final_tree_from_consensus:
     conda: "envs/treemix.yaml"
     input:
-        contree="TreeMix/{filter}_m{migrations}.contree",
-        frq="final-panel.{filter}.treemix.frq.gz"
-    output: treeout="TreeMix/Consensus_{filter}_m{migrations}.treeout.gz",
-            cov="TreeMix/Consensus_{filter}_m{migrations}.cov.gz",
-            modelcov="TreeMix/Consensus_{filter}_m{migrations}.modelcov.gz"
+        contree="results/TreeMix/{filter}_m{migrations}.contree",
+        frq="results/final-panel.{filter}.treemix.frq.gz"
+    output: treeout="results/TreeMix/Consensus_{filter}_m{migrations}.treeout.gz",
+            cov="results/TreeMix/Consensus_{filter}_m{migrations}.cov.gz",
+            modelcov="results/TreeMix/Consensus_{filter}_m{migrations}.modelcov.gz"
     params:
-        prefix="TreeMix/Consensus_{filter}_m{migrations}"
-    log: "TreeMix/logs/Consensus_{filter}_m{migrations}.log"
-    message: "Computing final consensus tree fro {wildcards.filter}, migrations: {wildcards.migrations}"     
+        prefix="results/TreeMix/Consensus_{filter}_m{migrations}",
+        k=500
+    log: "logs/Consensus_{filter}_m{migrations}.log"
+    message: "Computing final consensus tree for {wildcards.filter}, migrations: {wildcards.migrations} Log: {log}"     
     shell:
         """
-        treemix -i {input.frq} -m {wildcards.migrations} -k 500 -root Outgroup \
+        treemix -i {input.frq} -m {wildcards.migrations} -k {params.k} -root Outgroup \
         -se -tf {input.contree} -o {params.prefix} > {log}
-
         
         """
         
-### Make the required directory structure and index the input data
-
-rule setup:
-    conda: "envs/vcftools.yaml"
-    input: vcf=VCF,
-           panel=PANEL,
-           admixtools= ".admixtools_installed",
-           admixbayes='scripts/AdmixtureBayes'
-    output: setup=".setup_complete",
-            idx1=expand("{v}.csi", v=VCF),
-            idx2=expand("{p}.csi", p=PANEL)
-           
-    shell:
-        """
-        mkdir -p scripts
-        mkdir -p TreeMix/bootstrap TreeMix/logs
-        bcftools index -f  {input.vcf}
-        bcftools index -f {input.panel}
-        touch .setup_complete        
-        """
-
-rule install_admixtools2:
-    conda: "envs/admixtools.yaml"
-    output: ".admixtools_installed"
-    message: "Installing dependency Admixtools2"        
-    shell:
-        r"""
-
-pushd .
-cd $(mktemp -d)
-git clone https://github.com/uqrmaie1/admixtools.git
-R CMD INSTALL admixtools/                
-popd
-touch {output}        
-        
-        """
-
-rule install_admixturebayes:
-    conda: "envs/admixturebayes.yaml"
-    output: directory('scripts/AdmixtureBayes')
-    params: revision="7b1433f"
-    message: "Installing dependency AdmixtureBayes"        
-        
-    shell:
-        """
-        cd scripts
-        git clone https://github.com/avaughn271/AdmixtureBayes
-        cd AdmixtureBayes/
-        git checkout {params.revision}
-        pip install graphviz
-        
-        """
-                   
-    
 
            
         
@@ -331,16 +247,16 @@ rule install_admixturebayes:
 rule rename_chromosomes:
     conda: "envs/vcftools.yaml"
     input: vcf=VCF,
-           namemap="misc/refseq2chr"
-    output: vcf="renamed.vcf.gz",
-            idx="renamed.vcf.gz.csi"
+           namemap="config/refseq2chr"
+    output: vcf="results/renamed.vcf.gz",
+            idx="results/renamed.vcf.gz.csi"
     threads: 60
     shell:
         """
         bcftools annotate --threads {threads} --rename-chrs {input.namemap} {input.vcf} | bgzip > {output.vcf}
         bcftools index -f {output.vcf}
  echo "---------------------------------------------------------"
-        echo "Remaining after {rule}:"
+        echo "Remaining markers after {rule}:"
         bcftools stats {output.vcf} | grep -e"^SN"
         
         """
@@ -349,9 +265,9 @@ rule rename_chromosomes:
         
 rule merge:        
     conda: "envs/vcftools.yaml"       
-    input: vcf="renamed.vcf.gz",
+    input: vcf="results/renamed.vcf.gz",
            panel=PANEL
-    output: "merged.vcf.gz"
+    output: "results/merged.vcf.gz"
                
     threads: 60       
     shell:
@@ -368,9 +284,9 @@ rule merge:
 
 rule exclude_recode:
     conda: "envs/vcftools.yaml"
-    input: vcf="merged.vcf.gz",
-           excl="misc/exclude.list"
-    output: "final-panel.vcf.gz"
+    input: vcf="results/merged.vcf.gz",
+           excl="config/exclude.list"
+    output: "results/final-panel.vcf.gz"
     threads: 60
     params:
     shell:            
@@ -387,9 +303,9 @@ rule exclude_recode:
 rule use_existing_clusterfile:
     conda: "envs/vcftools.yaml"
     input:
-        vcf="final-panel.vcf.gz",         
-        predefined="misc/predefined-cluster-file.clust"
-    output: "misc/yeast.clust" if exists ("misc/predefined-cluster-file.clust") else []
+        vcf="results/final-panel.vcf.gz",         
+        predefined="config/predefined-cluster-file.clust"
+    output: "misc/yeast.clust" if exists ("config/predefined-cluster-file.clust") else []
     message: "Using pre-defined cluster file {input.predefined}"        
     priority: 50         
     shell:
@@ -409,18 +325,15 @@ rule use_existing_clusterfile:
 rule make_new_clusterfile:
     conda: "envs/vcftools.yaml"
     input:
-        vcf="final-panel.vcf.gz",
-        annot="misc/pbio.samples.txt",
+        vcf="results/final-panel.vcf.gz",
+        annot="config/pbio.samples.txt",
 
-    output: "misc/yeast.clust" if not exists ("misc/predefined-cluster-file.clust") else []
+    output: "misc/yeast.clust" if not exists ("config/predefined-cluster-file.clust") else []
     message: "Generating new cluster file, all sampleswith name starting with 'sample' are put in one cluster."
     priority: 0         
     shell:
         """
- 
         bcftools query -l {input.vcf} | scripts/makeClusterFile.pl {input.annot} > {output}
- 
-        
         """
 
 ### 
@@ -430,9 +343,9 @@ rule make_new_clusterfile:
 rule weir_windowed_fst_calc:
     conda: "envs/vcftools.yaml"
     input:
-        panel="final-panel.LDpruned.vcf.gz",
+        panel="results/final-panel.LDpruned.vcf.gz",
         clust="misc/yeast.clust"
-    output: "sake_vs_kveik_fst.windowed.weir.fst"
+    output: "results/sake_vs_kveik_fst.windowed.weir.fst"
             
     params: winsize=10000,
             winstep=10000,
@@ -442,28 +355,26 @@ rule weir_windowed_fst_calc:
         grep -e "Asia/sake" {input.clust} | cut -f1 > misc/sake.grp
         grep -e "Kveik" {input.clust} | cut -f1 > misc/kveik.grp
         vcftools --gzvcf {input.panel} --weir-fst-pop misc/sake.grp --weir-fst-pop misc/kveik.grp --fst-window-size {params.winsize} --fst-window-step {params.winstep} --out {params.prefix}
-
-        
         """
 
 rule fst2bed:
     conda: "envs/fst2bed.yaml"
     input:
-        wfst="sake_vs_kveik_fst.windowed.weir.fst"
+        wfst="results/sake_vs_kveik_fst.windowed.weir.fst"
     output:
-        bed="sake_vs_kveik_fst.windowed.weir.bed",
-        plot="sake_vs_kveik_fst.windowed.weir.plots.pdf"
-    params: threshold=0.6
+        bed="results/sake_vs_kveik_fst.windowed.weir.bed",
+        plot="results/sake_vs_kveik_fst.windowed.weir.plots.pdf"
+    params: threshold=0.8
     script: 'scripts/fst2bed.R'
 
 
 rule weir_windowed_fst_filter:
     conda: "envs/bedtools.yaml"
     input:
-        panel="final-panel.LDpruned.vcf.gz",
-        bed="sake_vs_kveik_fst.windowed.weir.bed"
+        panel="results/final-panel.LDpruned.vcf.gz",
+        bed="results/sake_vs_kveik_fst.windowed.weir.bed"
 
-    output: "final-panel.Sake-Kveik-Fst.vcf.gz"
+    output: "results/final-panel.Sake-Kveik-Fst.vcf.gz"
 
     shell:
         """
@@ -481,12 +392,11 @@ rule weir_windowed_fst_filter:
 rule leave1Out_filter:        
     conda: "envs/vcftools.yaml"
     input:
-        panel="final-panel.LDpruned.vcf.gz",        
+        panel="results/final-panel.LDpruned.vcf.gz",        
 
-    output: "final-panel.L1O_{chrom}.vcf.gz"
+    output: "results/final-panel.L1O_{chrom}.vcf.gz"
     shell:
         """
-    
         vcftools --gzvcf {input.panel} --not-chr {wildcards.chrom} --recode --stdout | bgzip -c > {output}        
         """
 
@@ -496,10 +406,10 @@ rule leave1Out_filter:
 
 rule SweeD_filter:
     conda: "envs/bedtools.yaml"
-    input: panel="final-panel.LDpruned.vcf.gz",
-           full="merged.vcf.gz",
+    input: panel="results/final-panel.LDpruned.vcf.gz",
+           full="results/merged.vcf.gz",
            cluster="misc/yeast.clust"
-    output: "final-panel.SweeD.vcf.gz"
+    output: "results/final-panel.SweeD.vcf.gz"
     params:
         grid=10000,
         percentile=95,
@@ -517,7 +427,7 @@ set -x
         bcftools view -S "groups.grp.tmp" --with-header -o filter.tmp0.vcf {input.full}
         bcftools +fixploidy -o filter.tmp.vcf  filter.tmp0.vcf -- -d2 
         
-         bin/SweeD -name sweedout -input filter.tmp.vcf -grid {params.grid}
+         tools/sweed/bin/SweeD -name sweedout -input filter.tmp.vcf -grid {params.grid}
         cat SweeD_Report.sweedout | scripts/sweed2bed.pl -p{params.percentile} > SweeD.filter.bed
         bedtools intersect -v -a {input.panel} -b SweeD.filter.bed -wa -header | bgzip > {output}
         rm filter.tmp.vcf
@@ -533,8 +443,8 @@ set -x
         
 rule ld_prune:
      conda: "envs/vcftools.yaml"
-     input: "final-panel.vcf.gz"
-     output: "final-panel.LDpruned.vcf.gz"
+     input: "results/final-panel.vcf.gz"
+     output: "results/final-panel.LDpruned.vcf.gz"
      params:
          threshold=0.2
      message: "Pruning SNP matrix for markers in LD > {params.threshold} ..."    
@@ -555,9 +465,9 @@ rule ld_prune:
          
 rule treemix_input:
     conda: "envs/vcftools.yaml"
-    input: vcf="final-panel.{filter}.vcf.gz",       
+    input: vcf="results/final-panel.{filter}.vcf.gz",       
    	   clust="misc/yeast.clust"
-    output: "final-panel.{filter}.treemix.frq.gz"
+    output: "results/final-panel.{filter}.treemix.frq.gz"
     
     shell:
           """
@@ -568,9 +478,9 @@ rule treemix_input:
          
 rule make_bed:
     conda:"envs/admixture.yaml"
-    input: vcf="final-panel.{filter}.vcf.gz", clust="misc/yeast.clust"   
-    output: bed="final-panel.{filter}.admixture.bed", fam="final-panel.{filter}.admixture.fam"
-    params: prefix="final-panel.{filter}.admixture"          
+    input: vcf="results/final-panel.{filter}.vcf.gz", clust="misc/yeast.clust"   
+    output: bed="results/final-panel.{filter}.admixture.bed", fam="final-panel.{filter}.admixture.fam"
+    params: prefix="results/final-panel.{filter}.admixture"          
     priority: 100000
     message: "Generating ADMIXTURE input files"
     shell:
@@ -591,30 +501,30 @@ rule make_bed:
     
 rule ADMIXTURE_run:
     conda:"envs/admixture.yaml"
-    input: "final-panel.{filter}.admixture.bed"   
+    input: "results/final-panel.{filter}.admixture.bed"   
     output:
-        q="admixture/final-panel.{filter}.admixture.{K}.Q",
-        p="admixture/final-panel.{filter}.admixture.{K}.P"
+        q="results/admixture/final-panel.{filter}.admixture.{K}.Q",
+        p="results/admixture/final-panel.{filter}.admixture.{K}.P"
     params: prefix="final-panel.{filter}.admixture.{K}"
     log: "logs/admixture-final-panel.{filter}.{K}.log"
     message: "Running ADMIXTURE for filter {wildcards.filter}, K={wildcards.K}"     
     shell:
         """
-        mkdir -p admixture
-        cd admixture
-        admixture  --cv ../{input} {wildcards.K} > ../{log}
-        cd ..
+        mkdir -p results/admixture
+        cd results/admixture
+        admixture  --cv ../{input} {wildcards.K} > ../../{log}
+        
         """
 
 rule ADMIXTURE_plot:
     conda:"envs/admixtureplot.yaml"
     input:   
-        q=expand("admixture/final-panel.{{filter}}.admixture.{K}.Q", K=admixture_k),
-        p=expand("admixture/final-panel.{{filter}}.admixture.{K}.P", K=admixture_k)
+        q=expand("results/admixture/final-panel.{{filter}}.admixture.{K}.Q", K=admixture_k),
+        p=expand("results/admixture/final-panel.{{filter}}.admixture.{K}.P", K=admixture_k)
     output:
-        "admixture/plots/final-panel.{filter}.tiff"
+        "results/admixture/plots/final-panel.{filter}.tiff"
         
-    params: prefix="admixture/final-panel.{filter}.admixture",
+    params: prefix="results/admixture/final-panel.{filter}.admixture",
             poporder="Africa,China,Clinical,Europe/wine,Japan_1,Japan_2,Asia/sake,KveikHC1,KveikHC2,KveikHC3,KveikHC4,KveikHC10,KveikIC12,KveikIC15,KveikIC16,KveikIC6,KveikIC7,KveikIC8,Ale_1,Ale_2,Beer/baking,Lager,Lab,Med/oak,Outgroup"
     shell:
         r"""
@@ -627,8 +537,8 @@ rule ADMIXTURE_plot:
         
 rule admixtools_import:
     conda:"envs/admixtools.yaml"    
-    input: bed="final-panel.{filter}.admixture.bed", fam="final-panel.{filter}.admixture.fam"
-    output: directory("admixture/final-panel.{filter}.f2data")       
+    input: bed="results/final-panel.{filter}.admixture.bed", fam="results/final-panel.{filter}.admixture.fam"
+    output: directory("results/admixtools/final-panel.{filter}.f2data")       
     params: prefix="final-panel.{filter}.admixture"
     resources: mem_mb=100000        
     shell:
@@ -654,13 +564,13 @@ rm {rule}.$$.tmp.R
 
 rule admixtools_run:
     conda: "envs/admixtools.yaml"    
-    input: "admixture/final-panel.{filter}.f2data"
-    output: "admixture/admixtools/final-panel.{filter}.{N}.rda"
+    input: "results/admixtools/final-panel.{filter}.f2data"
+    output: "results/admixtools/final-panel.{filter}.{N}.rda"
     log:    "logs/admixtools-final-panel.{filter}.{N}.log"     
     params: maxgen=500
     shell:        
         r"""
-mkdir -p admixture/admixtools
+
     
 cat <<'EOF' > {rule}.$$.tmp.R
 
@@ -693,11 +603,11 @@ rm {rule}.$$.tmp.R
 
 rule admixtools_plot:
     conda: "envs/admixtools.yaml"    
-    input: expand("admixture/admixtools/final-panel.{{filter}}.{N}.rda", N=AdmixtoolsN)       
-    output: "admixture/admixtools/plots/final-panel.{filter}.pdf"
+    input: expand("results/admixtools/final-panel.{{filter}}.{N}.rda", N=AdmixtoolsN)       
+    output: "results/admixtools/plots/final-panel.{filter}.pdf"
     shell:        
         r"""
-mkdir -p admixture/admixtools/plots
+
     
 cat <<'EOF' > {rule}.$$.tmp.R      
 
@@ -732,10 +642,10 @@ rm {rule}.$$.tmp.R
 
 rule admixbayes_mcmc:
     conda: "envs/admixturebayes.yaml"
-    input: frq="final-panel.{filter}.treemix.frq.gz",
-           script="scripts/AdmixtureBayes"
+    input: frq="results/final-panel.{filter}.treemix.frq.gz",
+           script="tools/AdmixtureBayes"
     output:
-        mcmc="admixbayes/admixturebayes-{filter}.mcmc.csv"                
+        mcmc="results/admixbayes/admixturebayes-{filter}.mcmc.csv"                
     params:
         prefix="admixbayes/admixturebayes-{filter}",
         iter=1500000, # should be > 500000 for production
@@ -744,16 +654,15 @@ rule admixbayes_mcmc:
     log: "logs/admixturebayes-{filter}.mcmc.log"    
     shell:
         r"""
-        mkdir -p admixbayes/plots
         ## throws an error if the tempfolder exists
-        rm -rf admixbayes/admixturebayes-{wildcards.filter}mcmccsv_tempfilefolder
+        rm -rf results/admixbayes/admixturebayes-{wildcards.filter}mcmccsv_tempfilefolder
         TMP=$(mktemp {rule}.{wildcards.filter}.XXXXXXXX.frq)
         ### fix the population names, admixbayes doesn't tolerate non-word characters
         gunzip -cd {input.frq} |  perl -e '$_ = <>; s/[^\w\s]|_//g ; print ; print while (<>)' > $TMP 
         
         ### (i) MCMC: This takes longest, and produces a lot of output
         
-        python scripts/AdmixtureBayes/admixturebayes/runMCMC.py --input_file $TMP \
+        python tools/AdmixtureBayes/admixturebayes/runMCMC.py --input_file $TMP \
         --n {params.iter} --result_file {output.mcmc} --MCMC_chains {params.chains} \
         --outgroup Outgroup > {log} 2>&1                
         
@@ -762,16 +671,16 @@ rule admixbayes_mcmc:
 
 rule admixbayes_analyze:
     conda: "envs/admixturebayes.yaml"
-    input: "admixbayes/admixturebayes-{filter}.mcmc.csv"
-    output: "admixbayes/admixturebayes-{filter}.thinned.csv"                
+    input: "results/admixbayes/admixturebayes-{filter}.mcmc.csv"
+    output: "results/admixbayes/admixturebayes-{filter}.thinned.csv"                
     params:
-        prefix="admixbayes/admixturebayes-{filter}",
+        prefix="results/admixbayes/admixturebayes-{filter}",
         burnin=0.5,
         thinning=10
     shell:
          """
-         
-         python scripts/AdmixtureBayes/admixturebayes/analyzeSamples.py  --mcmc_results {input} \
+
+         python tools/AdmixtureBayes/admixturebayes/analyzeSamples.py  --mcmc_results {input} \
          --result_file {output} --burn_in_fraction {params.burnin} --thinning_rate {params.thinning}
 
 
@@ -781,29 +690,29 @@ rule admixbayes_analyze:
 rule admixbayes_plot:
     conda: "envs/admixturebayes.yaml"
   
-    input: "admixbayes/admixturebayes-{filter}.thinned.csv"
-    output: topology='admixbayes/plots/admixturebayes-{filter}_topology_1.pdf',
-            labels='admixbayes/plots/admixturebayes-{filter}_topology_labels_1.pdf',
-             minimal='admixbayes/plots/admixturebayes-{filter}_minimal_topology_1.pdf'
+    input: "results/admixbayes/admixturebayes-{filter}.thinned.csv"
+    output: topology='results/admixbayes/plots/admixturebayes-{filter}_topology_1.pdf',
+            labels='results/admixbayes/plots/admixturebayes-{filter}_topology_labels_1.pdf',
+             minimal='results/admixbayes/plots/admixturebayes-{filter}_minimal_topology_1.pdf'
                      
     params:
-        prefix="admixbayes/plots/admixturebayes-{filter}"
+        prefix="results/admixbayes/plots/admixturebayes-{filter}"
 
     shell:
          """
          ## just plot everything
          
-         python scripts/AdmixtureBayes/admixturebayes/makePlots.py --plot top_trees \
+         python tools/AdmixtureBayes/admixturebayes/makePlots.py --plot top_trees \
          --posterior {input} --output_prefix {params.prefix}_topology
 
-         python scripts/AdmixtureBayes/admixturebayes/makePlots.py --plot estimates \
+         python tools/AdmixtureBayes/admixturebayes/makePlots.py --plot estimates \
          --posterior {input} --output_prefix {params.prefix}_topology_labels
          
-         python scripts/AdmixtureBayes/admixturebayes/makePlots.py --plot top_minimal_topologies \
+         python tools/AdmixtureBayes/admixturebayes/makePlots.py --plot top_minimal_topologies \
          --posterior {input} --output_prefix {params.prefix}_minimal_topology
 
          
-         python scripts/AdmixtureBayes/admixturebayes/makePlots.py --plot consensus_trees \
+         python tools/AdmixtureBayes/admixturebayes/makePlots.py --plot consensus_trees \
          --posterior {input} --output_prefix {params.prefix}_consensus
          
 
