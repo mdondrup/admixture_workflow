@@ -329,7 +329,7 @@ rule make_new_clusterfile:
         annot="config/pbio.samples.txt",
 
     output: "misc/yeast.clust" if not exists ("config/predefined-cluster-file.clust") else []
-    message: "Generating new cluster file, all sampleswith name starting with 'sample' are put in one cluster."
+    message: "Generating new cluster file, all sampleswith name starting with 'sample' are put in one cluster named Kveik."
     priority: 0         
     shell:
         """
