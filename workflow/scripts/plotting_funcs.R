@@ -367,11 +367,26 @@ plot_resid = function(stem, pop_order, min = -0.009, max = 0.009, cex = 1, usema
 	m = read.table(gzfile(paste(stem, ".modelcov.gz", sep = "")), as.is = T, head = T, quote = "", comment.char = "")
 	names(c) = rownames(c)
 	names(m) = rownames(m)
-	o = read.table(pop_order, as.is = T, comment.char = "", quote = "")
+        #print("Row names = col names")
+        #print(names(c))
+        #print(names(m))
+        ## not sure why the following needs to be a table,
+        ## could be a vector, possibly original author didn't know scan
+	o = read.table(pop_order, as.is = T, comment.char = "#", quote = "", header = F, colClasses='character')
 	se = read.table(gzfile(paste(stem, ".covse.gz", sep = "")), as.is = T, head = T, quote = "", comment.char = "")
-	mse = apply(se, 1, mean)
+        ## perform some sanity checks
+        stopifnot (all(names(c) %in% names(m))) ## names must be the same, otherwise we confused the input files
+        if (!all(names(m) %in% o[,1])) {
+            warning(paste(" Missing: ", (setdiff(names(m), o[,1]))))
+            stop ("All groups must be defined in pop_order")     
+        }
+        if (length(add <- setdiff(o[,1], names(m))) > 0) {
+            warning(paste("Additional group found (will be ignored):", add, "check your cluster file"))
+            o <- data.frame(intersect(o[,1], names(m))) ## remove additional entries from pop_order
+        }    
+        mse = apply(se, 1, mean)
 	mse = mean(mse)
-	print(mse)	
+	#print(mse)	
 	c = c[order(names(c)), order(names(c))]
 	m = m[order(names(m)), order(names(m))]
 	tmp = c -m 
@@ -457,8 +472,8 @@ plot_cov_internal = function(d, o = NA, max = 0.009, min = -0.009, cex =0.5, wco
                 xma = 0.80
                 lmi = round(min, digits = 1)
                 lma = round(max, digits = 1)
-                print(cols)
-                print(ymi+(0:ncol)*w)
+                #print(cols)
+                #print(ymi+(0:ncol)*w)
                 rect( rep(0.75, ncol), ymi+(0:(ncol-1))*w, rep(xma, ncol), ymi+(1:ncol)*w, col = cols, border = cols)
                 text(xma+0.01, ymi, lab = paste(lmi),  adj = 0, cex = 0.8)
                 text(xma+0.01, yma, lab = paste(lma, "(Variance)"), adj = 0, cex = 0.8)
@@ -523,8 +538,8 @@ plot_resid_internal = function(d, o = NA, max = 0.009, min = -0.009, cex =0.5, w
                 xma = 0.80
 		lmi = round(min/mse, digits = 1)
 		lma = round(max/mse, digits = 1)
-		print(cols)
-		print(ymi+(0:ncol)*w)
+		#print(cols)
+		#print(ymi+(0:ncol)*w)
                 rect( rep(0.75, ncol), ymi+(0:(ncol-1))*w, rep(xma, ncol), ymi+(1:ncol)*w, col = cols, border = cols)
                 text(xma+0.01, ymi, lab = paste(lmi, "SE"),  adj = 0, cex = 0.8)
                 text(xma+0.01, yma, lab = paste(lma, "SE"), adj = 0, cex = 0.8)

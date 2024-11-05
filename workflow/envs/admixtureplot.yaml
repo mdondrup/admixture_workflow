@@ -73,6 +73,7 @@ dependencies:
 - r-core=3.2=r43h142f84f_0
 - r-getopt=1.20.4=r43ha770c72_0
 - r-optparse=1.7.5=r43hc72bb7e_0
+- r-rcolorbrewer=1.1_3=r43h785f33e_3
 - readline=8.2=h8228510_1
 - sed=4.8=he412f7d_0
 - sysroot_linux-64=2.12=he073ed8_17

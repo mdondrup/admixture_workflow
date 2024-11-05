@@ -17,6 +17,8 @@
 
 # Read in the arguments
 library("optparse")
+require('RColorBrewer')
+
 option_list = list(
   make_option(c("-p", "--prefix"), type="character", default=NULL, 
               help="prefix name (with path if not in the current directory)", metavar="character"),
@@ -78,14 +80,24 @@ spaces<-0
 for(i in 1:length(rep)){spaces=c(spaces,rep(0,rep[i]-1),0.5)}
 spaces<-spaces[-length(spaces)]
 
+mypal <- function(n) {
+    if (n<=8) return(brewer.pal(n,'Set1'))
+    if (n>8 && n <= 16)  return(c(brewer.pal(8,'Set1'), brewer.pal(n-8,'Set2')) )
+    if (n>16)  return(c(brewer.pal(8,'Set1'), brewer.pal(8,'Set2'), rainbow(n-16))  )
+}
+
 # Plot the cluster assignments as a single bar for each individual for each K as a separate row
-tiff(file=paste0(opt$outPrefix,".tiff"),width = 2000, height = 1200,res=200)
+pdf(file=paste0(opt$outPrefix,".pdf"))
  par(mfrow=c(maxK-1,1),mar=c(0,1,0,0),oma=c(2,1,9,1),mgp=c(0,0.2,0),xaxs="i",cex.lab=0.5,cex.axis=0.5)
  # Plot minK
- bp<-barplot(t(as.matrix(tbl[[1]][order(labels$n),])), col=rainbow(n=minK),xaxt="n", border=NA,ylab=paste0("K=",minK),yaxt="n",space=spaces)
+
+bp<-barplot(t(as.matrix(tbl[[1]][order(labels$n),])), col=rainbow(n=minK),xaxt="n", border=NA,ylab=paste0("K=",minK),yaxt="n",space=spaces)
+
  axis(3,at=bp,labels=labels$ind[order(labels$n)],las=2,tick=F,cex=0.3)
  # Plot higher K values
- if(maxK>minK)lapply(2:(maxK-1), function(x) barplot(t(as.matrix(tbl[[x]][order(labels$n),])), col=rainbow(n=x+1),xaxt="n", border=NA,ylab=paste0("K=",x+1),yaxt="n",space=spaces))
+if(maxK>minK)lapply(2:(maxK-1), function(x)
+    barplot(t(as.matrix(tbl[[x]][order(labels$n),])),
+            col=mypal(n=x+1),xaxt="n", border=NA,ylab=paste0("K=",x+1),yaxt="n",space=spaces))
  axis(1,at=c(which(spaces==0.5),bp[length(bp)])-diff(c(1,which(spaces==0.5),bp[length(bp)]))/2,
      labels=unlist(strsplit(opt$populations,",")))
 dev.off()

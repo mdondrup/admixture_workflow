@@ -1,31 +1,25 @@
 ### Make the required directory structure and index the input data
 
-rule setup:
-    conda: "envs/vcftools.yaml"
-    input: vcf=VCF,
-           panel=PANEL,
-           admixtools= "misc/.admixtools_installed",
-           admixbayes='tools/AdmixtureBayes'
-    output: setup="misc/.setup_complete",
-            idx1=expand("{v}.csi", v=VCF),
-            idx2=expand("{p}.csi", p=PANEL)
-           
+rule setup:  
+    input: 
+        admixtools= "misc/.admixtools_installed",
+        admixbayes="tools/AdmixtureBayes",
+        sweed="tools/sweed"
+    output:
+        setup="misc/.setup_complete",   
     shell:
         """
         mkdir -p misc tools logs
         mkdir -p results/TreeMix/bootstrap results/TreeMix/plots \
-              results/admixtools/plots results/admixbayes/plots
-        bcftools index -f  {input.vcf}
-        bcftools index -f {input.panel}
+              results/admixtools/plots results/admixbayes/plots      
         touch {output.setup}       
         """
 
 rule install_admixtools2:
-    conda: "envs/admixtools.yaml"
+    conda: "../envs/admixtools.yaml"
     output: "misc/.admixtools_installed"
     message: "Installing dependency Admixtools2"        
-    shell:
-        
+    shell:        
         r"""
 
 pushd .
@@ -42,7 +36,7 @@ rm -r $TMP
 
 
 rule install_admixturebayes:
-    conda: "envs/admixturebayes.yaml"
+    conda: "../envs/admixturebayes.yaml"
     output: directory('tools/AdmixtureBayes')
     params: revision="7b1433f"
     message: "Installing dependency AdmixtureBayes"        
@@ -59,7 +53,7 @@ rule install_admixturebayes:
 
 
 rule install_sweed:
-    conda: "envs/bedtools.yaml"
+    conda: "../envs/bedtools.yaml"
     output: directory("tools/sweed")
     params: revision="5f7e176"
     message: "Installing and building SweeD"
