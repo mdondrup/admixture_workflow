@@ -776,6 +776,63 @@ rm {rule}.$$.tmp.R
         
         """
     
+### The only way to check for convergence is to run the whole MCMC process three times
+        
+for replicate in ["2","3"]:        
+    rule:
+        name: "admixbayes_mcmc_replicate_{replicate}_{filter}"
+        conda: "envs/admixturebayes.yaml"
+        input: frq="results/final-panel.{filter}.treemix.frq.gz",
+               script="tools/AdmixtureBayes"
+        output:
+            mcmc="results/admixbayes/r{replicate}-admixturebayes-{filter}.mcmc.csv"                
+        params:
+            prefix="admixbayes/r{replicate}-admixturebayes-{filter}.r",
+            iter=AdmixtureBayesN, # 1M iterarations
+            chains=16,
+            outgroup=OUTGROUP
+        threads: 60
+        priority: 0 # have this rule run after the initial replicate so there is already a plot to look at
+                  
+        log: "logs/r{replicate}-admixturebayes-{filter}.r.mcmc.log"
+        benchmark: "benchmarks/r{replicate}-admixturebayes-{filter}.mcmc.benchmark"
+        message:
+            "running AdmixtureBayes MCMC replicate {replicate} on {wildcards.filter} for {params.iter} * 50 generations"         
+        shell:
+            r"""
+            ## mcmc throws an error if the tempfolder exists
+            rm -rf results/{params.prefix}mcmccsv_tempfilefolder
+            TMP=$(mktemp {rule}.{wildcards.filter}.XXXXXXXX.frq)
+            ### fix the population names, admixbayes doesn't tolerate non-word characters
+            gunzip -cd {input.frq} |  perl -e '$_ = <>; s/[^\w\s]|_//g ; print ; print while (<>)' > $TMP 
+        
+            ### (i) MCMC: This takes longest, and produces a lot of output
+        
+            python tools/AdmixtureBayes/admixturebayes/runMCMC.py --input_file $TMP \
+            --n {params.iter} --result_file {output.mcmc} --MCMC_chains {params.chains} \
+            --outgroup {params.outgroup} > {log} 2>&1                        
+            rm -f $TMP
+            """
+
+rule admixbayes_convergence_plots:
+    conda: "envs/r-coda.yaml"
+    input:
+        chain1="results/admixbayes/admixturebayes-{filter}.mcmc.csv",
+        chain2="results/admixbayes/r2-admixturebayes-{filter}.mcmc.csv",
+        chain3="results/admixbayes/r3-admixturebayes-{filter}.mcmc.csv",
+    output:
+        plot='results/admixbayes/plots/admixturebayes-{filter}_convergence.pdf'       
+    params:
+        BurnInFraction = 0.35
+    log: "logs/admixturebayes-{filter}-convergence.log"
+    script:
+        "scripts/EvaluateConvergence_smk.R"   
+        
+
+            
+
+
+            
 
 rule admixbayes_mcmc:
     conda: "envs/admixturebayes.yaml"
@@ -807,6 +864,7 @@ rule admixbayes_mcmc:
         
         rm -f $TMP
         """
+        
 
 rule admixbayes_analyze:
     conda: "envs/admixturebayes.yaml"
