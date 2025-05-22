@@ -2,7 +2,7 @@
 
 library("coda") # We load the coda library
 
-pdf(file=snakemake@output[["plot"]], onefile=FALSE, title="AdmitureBayes Convergence plots")
+pdf(file=snakemake@output[["plot"]], onefile=TRUE, title="AdmitureBayes Convergence plots")
 
 #This is our fraction of samples to discard as burn-in. This can be changed to
 #decide what a good burn-in is

@@ -42,7 +42,8 @@ PANEL="" # don't merge if empty # "input/tellini-2024-scerisolatesnorm.vcf.gz"
 VCF="input/selected-SNPINDEL_Ploidy2.vcf.gz"
 ## Define _additional_ samples file to exclude 
 EXCLUDE=""
-CLUST="config/selected-kveik-tellini-samples-nonvar.clust"
+#CLUST="config/selected-kveik-tellini-samples-nonvar.clust"
+CLUST="config/selected-kveik-tellini-samples-var.clust"
 OUTGROUP="CHNII"
 
 ##############################################################################
@@ -791,7 +792,7 @@ for replicate in ["2","3"]:
             iter=AdmixtureBayesN, # 1M iterarations
             chains=16,
             outgroup=OUTGROUP
-        threads: 60
+        threads: 30
         priority: 0 # have this rule run after the initial replicate so there is already a plot to look at
                   
         log: "logs/r{replicate}-admixturebayes-{filter}.r.mcmc.log"
@@ -845,9 +846,10 @@ rule admixbayes_mcmc:
         iter=AdmixtureBayesN, # 1M iterarations
         chains=16,
         outgroup=OUTGROUP
-    threads: 144
+    threads: 30
     log: "logs/admixturebayes-{filter}.mcmc.log"
     benchmark: "benchmarks/admixturebayes-{filter}.mcmc.benchmark"
+    message:  "Running AdmixtureBayes on {wildcards.filter} for {params.iter} * 50 generations"    
     shell:
         r"""
         ## throws an error if the tempfolder exists
@@ -855,15 +857,45 @@ rule admixbayes_mcmc:
         TMP=$(mktemp {rule}.{wildcards.filter}.XXXXXXXX.frq)
         ### fix the population names, admixbayes doesn't tolerate non-word characters
         gunzip -cd {input.frq} |  perl -e '$_ = <>; s/[^\w\s]|_//g ; print ; print while (<>)' > $TMP 
-        
         ### (i) MCMC: This takes longest, and produces a lot of output
-        
         python tools/AdmixtureBayes/admixturebayes/runMCMC.py --input_file $TMP \
         --n {params.iter} --result_file {output.mcmc} --MCMC_chains {params.chains} \
-        --outgroup {params.outgroup} > {log} 2>&1                
-        
+        --outgroup {params.outgroup} > {log} 2>&1                        
         rm -f $TMP
         """
+
+rule admixbayes_mcmc_continue:
+    conda: "envs/admixturebayes.yaml"
+    input: frq="results/final-panel.{filter}.treemix.frq.gz",
+           mcmc="results/admixbayes/admixturebayes-{filter}.mcmc.csv",
+           script="tools/AdmixtureBayes"
+    output:
+        mcmccont="results/admixbayes/admixturebayes-{filter}.cont.mcmc.csv"                
+    params:
+        prefix="admixbayes/admixturebayes-{filter}",
+        iter=AdmixtureBayesN, # 1M iterarations
+        chains=16,
+        outgroup=OUTGROUP
+    threads: 60
+    log: "logs/admixturebayes-{filter}.cont.mcmc.log"
+    benchmark: "benchmarks/admixturebayes-{filter}.cont.mcmc.benchmark"
+    shell:
+        r"""
+        ## throws an error if the tempfolder exists
+        #rm -rf results/admixbayes/admixturebayes-{wildcards.filter}mcmccsv_tempfilefolder
+        TMP=$(mktemp {rule}.{wildcards.filter}.XXXXXXXX.frq)
+        ### fix the population names, admixbayes doesn't tolerate non-word characters
+        gunzip -cd {input.frq} |  perl -e '$_ = <>; s/[^\w\s]|_//g ; print ; print while (<>)' > $TMP 
+        ### (i) MCMC: This takes longest, and produces a lot of output
+        python tools/AdmixtureBayes/admixturebayes/runMCMC.py --input_file $TMP \
+        --n {params.iter} --continue_samples {input.mcmc} --result_file {output.mcmccont} --MCMC_chains {params.chains} \
+        --outgroup {params.outgroup} > {log} 2>&1                        
+        rm -f $TMP
+        """
+
+
+
+        
         
 
 rule admixbayes_analyze:
